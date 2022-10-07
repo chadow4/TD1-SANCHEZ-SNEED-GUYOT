@@ -12,19 +12,22 @@ static void prompt()
 {
     puts("************************************");
     puts("* Instance Digital wheel created *");
-    puts("************************************");
-    puts("*************************************************************************");
-    puts(" The digital wheel is actually a 10 bound wheel");
-    puts("*************************************************************************");
     puts("********************************************************************************************************");
-    puts("* Menu [ n : New instance , > : Next, ! : destroy instance , Ctr-D: Quit] *");
+    puts("* Menu [> : Make it rool, ! : destroy instance , Ctr-D: Quit] *");
     puts("********************************************************************************************************");
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    if (argc != 4) {
+        exit(1);
+    }
+    int *param;
+    for (int i = 1; i<4; i++) {
+        param[i-1] = (int)argv[i];
+    }
     prompt();
-    digitalWheelAppService_run_use_case('n'); //create the first instance for free -cadeau!
+    digitalWheelAppService_run_use_case('n', param); //create the first instance for free -cadeau!
 
     while (true)
     {
@@ -33,7 +36,7 @@ int main()
         if (c == EOF)
             break;
 
-        circularBufferAppService_run_use_case(c);
+        digitalWheelAppService_run_use_case(c, NULL);
     }
 
     printf("\n");

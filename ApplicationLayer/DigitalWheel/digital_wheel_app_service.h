@@ -4,11 +4,10 @@
 #include "digital_wheel.h"
 
 #define DESTROY_DIGITAL_WHEEL '!'
-#define NEXT '>'
 #define NEW_DIGITAL_WHEEL 'n'
 
 #define DIGITAL_WHEEL_LENGTH 10
 
-void digitalWheelAppService_run_use_case(int c);
+void digitalWheelAppService_run_use_case(int c, int* param);
 
 #endif

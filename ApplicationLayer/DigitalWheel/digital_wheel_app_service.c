@@ -3,49 +3,46 @@
 #include <stdlib.h>
 #include "digital_wheel_app_service.h"
 
-static digital_wheel dw;
+static digital_wheel dw1;
+static digital_wheel dw2;
+static int speed1;
+static int speed2;
 
-static void generate_next_int()
+static digital_wheel create(int size)
 {
-    // Check later
-    printf("\n[%d]: ", generator_get_next());
-}
 
-static digital_wheel create(int start, int end)
-{
-    digital_wheel dw = digital_wheel_construct(start, end);
-
+    digital_wheel dw = digital_wheel_construct(1, size);
     return dw;
 }
 
-void circularBufferAppService_run_use_case(int c)
-{
-    if (dw == NULL)
-        generate_next_int();
 
+void digitalWheelAppService_run_use_case(int c, int *param)
+{
     switch (c)
     {
-    case NEXT:
-        digital_wheel_move_to_next_position(dw);
-        break;
-
     case DESTROY_DIGITAL_WHEEL:
-        digital_wheel_collect(dw);
+        digital_wheel_collect(dw1);
+        digital_wheel_collect(dw2);
         break;
 
     case NEW_DIGITAL_WHEEL:
-        dw = create(1, DIGITAL_WHEEL_LENGTH);
+        dw1 = create(param[0]);
+        dw2 = create(param[0]);
+        speed1 = param[1];
+        speed1 = param[2];
         break;
 
     case '\n':
-        generate_next_int();
-    case ' ':
-    case '\t':
+        for (int i=0; i<speed1; i++) {
+            digital_wheel_move_to_next_position(dw1);
+            printf("%d", digital_wheel_get_current_position(dw1));
+        }
+        for (int i=0; i<speed2; i++) {
+            digital_wheel_move_to_next_position(dw2);
+            printf("%d", digital_wheel_get_current_position(dw2));
+        }
         break;
-
-    default:7
-        // TODO
-        circularBuffer_append_char_at_head(dw, c);
+    default:
         break;
     }
 }
